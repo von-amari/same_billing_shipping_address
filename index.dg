@@ -1,0 +1,31 @@
+accountRecord = zoho.crm.getRecordById("Accounts",account_id);
+///  5007702000000750176
+isSame = accountRecord.get("Same_as_mailing_address");
+street = accountRecord.get("Billing_Street");
+city = accountRecord.get("Billing_City");
+state = accountRecord.get("Billing_State");
+country = accountRecord.get("Billing_Country");
+zip = accountRecord.get("Billing_Code");
+clear = "";
+info isSame;
+if(isSame == "Yes" || isSame == "yes")
+{
+	accountRecordMap = Map();
+	accountRecordMap.put("Shipping_Street",street);
+	accountRecordMap.put("Shipping_City",city);
+	accountRecordMap.put("Shipping_State",state);
+	accountRecordMap.put("Shipping_Code",zip);
+	accountRecordMap.put("Shipping_Country",country);
+	updateAddress = zoho.crm.updateRecord("Accounts",account_id,accountRecordMap);
+}
+else if(isSame == null || isSame == "no" || isSame == "No")
+{
+	accountRecordMap = Map();
+	accountRecordMap.put("Shipping_Street",clear);
+	accountRecordMap.put("Shipping_City",clear);
+	accountRecordMap.put("Shipping_State",clear);
+	accountRecordMap.put("Shipping_Code",clear);
+	accountRecordMap.put("Shipping_Country",clear);
+	accountRecordMap.put("Same_as_mailing_address","No");
+	updateAddress = zoho.crm.updateRecord("Accounts",account_id,accountRecordMap);
+}
